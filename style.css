@@ -13,7 +13,9 @@
 .main-content-wrapper>.bg-video{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;object-fit:cover!important;opacity:.38!important;z-index:-2!important;pointer-events:none}
 .main-content-wrapper>.bg-overlay{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;background:linear-gradient(110deg,rgba(7,9,16,.79),rgba(9,11,18,.52))!important;z-index:-1!important;pointer-events:none}
 .brand-mark-img{display:block;width:44px!important;height:44px!important;object-fit:cover;border-radius:11px}
-.hero-video-orb{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;filter:saturate(1.12)}
+.hero-video-orb{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;filter:saturate(1.12);opacity:0;transition:opacity .25s ease}
+.hero-video-orb.is-ready{opacity:1}
+.hero-video-orb.is-failed{opacity:0}
 .video-section{padding:84px 0 104px}
 .video-heading{direction:rtl;text-align:right;align-items:flex-end}
 .video-heading>p{max-width:380px;line-height:2}
@@ -82,9 +84,16 @@
 .adsterra-banner{width:728px;min-height:90px}
 .adsterra-square{width:300px;min-height:250px}
 .adsterra-banner iframe,.adsterra-square iframe{max-width:100%;border:0}
+.ad-preview-note{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:8px 14px;border:1px dashed #ffffff24;border-radius:8px;color:#9a99aa;font:10px "Alexandria",sans-serif}
 @media(max-width:760px){.ad-slot-728{min-height:105px;padding:10px}.adsterra-banner{transform:scale(.94);transform-origin:center top;height:85px;min-height:0}}
 @media(max-width:600px){.ad-slot-728{min-height:83px}.adsterra-banner{transform:scale(.7);height:63px}}
 @media(max-width:420px){.ad-slot-728{min-height:64px}.adsterra-banner{transform:scale(.49);height:45px}}
+.sequence-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#05070d;color:#f6f4f8;opacity:1;visibility:visible;transition:opacity .4s ease,visibility .4s ease}
+.sequence-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.sequence-loader-content{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px 24px;width:min(260px,calc(100vw - 48px));font:500 12px "Alexandria",sans-serif}
+.sequence-loader-content strong{color:#a99afb;font:500 12px "IBM Plex Mono",monospace}
+.sequence-progress-track{grid-column:1/-1;height:2px;overflow:hidden;background:#ffffff20}
+.sequence-progress-track i{display:block;width:0;height:100%;background:linear-gradient(90deg,#67e8e1,#a78bfa);transition:width .15s linear}
 h1,.hero-lede,.section-heading h2,.section-heading p,.step-card h3,.step-card p,.video-heading h2,.video-heading>p,.video-card-copy h3,.video-card-copy p,.download-copy h2,.download-copy>p,.safety h2,.safety-top>p,.safety-grid b,.safety-grid small,.faq h2,.faq summary,.faq details p{ text-shadow:0 2px 14px rgba(0,0,0,.78)}
 html[data-theme="light"]{color-scheme:light;--bg:#f5f6fa;--panel:#fff;--line:rgba(23,28,45,.18);--text:#18202b;--muted:#4d5564;--violet:#6955c7;--cyan:#087d82;--pink:#a84cae}
 html[data-theme="light"] body{background:#f5f6fa;color:#18202b}
@@ -206,3 +215,12 @@ html[data-theme="light"] .hero-art .float-card{color:#242d3a;text-shadow:none}
 .whatsapp-btn .whatsapp-icon{width:20px;height:20px}
 .whatsapp-arrow{font-size:14px}
 @media(max-width:800px){.whatsapp-nav-btn{width:max-content;margin-top:4px;padding:9px 12px}.whatsapp-nav-btn .whatsapp-icon{width:18px;height:18px}}
+.adsense-placement{width:min(1160px,calc(100% - 48px));min-height:112px;margin:24px auto;position:relative;display:grid;place-items:center;overflow:hidden;border:1px dashed rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.025);color:#a7a5b5}
+.adsense-placement .adsbygoogle{display:block;width:100%;min-height:90px}
+.adsense-placement .ad-label{top:9px;right:12px;z-index:1;color:#aaa8b8;font-size:9px}
+.adsense-placeholder{position:absolute;inset:0;display:grid;place-items:center;font-size:11px;pointer-events:none}
+.adsense-placement.is-active .adsense-placeholder{display:none}
+.adsense-placement.is-active{border:0;background:transparent}
+.adsense-placement-banner{min-height:120px}
+.adsense-placement-square{min-height:286px}
+@media(max-width:800px){.adsense-placement{width:calc(100% - 36px);margin:18px auto;min-height:100px}.adsense-placement-square{min-height:270px}}

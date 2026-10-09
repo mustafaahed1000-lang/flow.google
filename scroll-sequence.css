@@ -1,0 +1,139 @@
+/* Reusable scroll-driven MP4 component with a WebP Canvas fallback. */
+.scroll-sequence {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 560vh !important;
+  min-height: 100vh;
+  overflow: clip;
+  isolation: isolate;
+  background: #05070d;
+}
+
+/* Keep this component ahead of the site's page content and override legacy sequence sizing. */
+#scroll-sequence.scroll-sequence { z-index: 100; height: 560vh !important; }
+
+.scroll-sequence .sequence-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #05070d;
+}
+
+.scroll-sequence .sequence-video,
+.scroll-sequence .sequence-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scroll-sequence .sequence-video {
+  z-index: 1;
+  opacity: 1;
+  pointer-events: none;
+  background: #05070d;
+  transition: opacity 180ms ease;
+}
+
+.scroll-sequence .sequence-video.is-failed { opacity: 0; }
+.scroll-sequence .sequence-video.is-ready + .sequence-canvas { visibility: hidden; }
+.scroll-sequence .sequence-canvas { z-index: 0; }
+
+.scroll-sequence .sequence-vignette {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.22), transparent 32%, transparent 68%, rgba(0,0,0,.16)),
+    linear-gradient(0deg, rgba(0,0,0,.25), transparent 28%, rgba(0,0,0,.12));
+}
+
+.scroll-sequence #sequence-canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.scroll-sequence .sequence-loader {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  display: grid;
+  place-items: center;
+  color: #f6f4f8;
+  background: #05070d;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.scroll-sequence .sequence-loader.is-hidden { opacity: 0; visibility: hidden; }
+.scroll-sequence .sequence-loader-content { display:grid; grid-template-columns:1fr auto; align-items:center; gap:14px 24px; width:min(260px,calc(100vw - 48px)); font:500 12px "Alexandria",sans-serif; }
+.scroll-sequence .sequence-loader-content strong { color:#a99afb; font:500 12px "IBM Plex Mono",monospace; }
+.scroll-sequence .sequence-progress-track { grid-column:1/-1; height:2px; overflow:hidden; background:#ffffff20; }
+.scroll-sequence .sequence-progress-track i { display:block; width:0; height:100%; background:linear-gradient(90deg,#67e8e1,#a78bfa); transition:width .15s linear; }
+
+.scroll-sequence .scroll-indicator {
+  position:fixed !important;
+  z-index:101;
+  top:50vh !important;
+  left:50% !important;
+  right:auto !important;
+  min-width:210px;
+  padding:20px 24px;
+  transform:translate(-50%,-50%) !important;
+  border:1px solid #ffffff35;
+  border-radius:18px;
+  background:#090b12b8;
+  color:#f6f4f8;
+  text-align:center;
+  pointer-events:none;
+  transition:opacity .4s ease,visibility .4s ease;
+}
+
+.scroll-sequence .scroll-indicator.is-hidden { opacity:0; visibility:hidden; }
+
+.scroll-sequence .sequence-frame-label {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 4vw;
+  transform: translateY(-50%);
+  color: #f6f4f8;
+  font: clamp(44px, 8vw, 100px)/1 "IBM Plex Mono", monospace;
+  letter-spacing: -.08em;
+  text-shadow: 0 3px 25px rgba(0,0,0,.55);
+  direction: ltr;
+  pointer-events: none;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.scroll-sequence .sequence-frame-label small {
+  color: rgba(246,244,248,.7);
+  font-size: 12px;
+  letter-spacing: 0;
+  vertical-align: top;
+}
+
+.scroll-sequence .sequence-frame-label.is-hidden { opacity: 0; visibility: hidden; }
+
+@media (max-width: 800px) {
+  #scroll-sequence.scroll-sequence { height:500vh !important; }
+  .scroll-sequence { height: 500vh !important; }
+  .scroll-sequence .scroll-indicator { min-width:190px; padding:17px 18px; }
+  .scroll-sequence .sequence-frame-label { left: 5vw; font-size: clamp(40px, 12vw, 72px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scroll-sequence.scroll-sequence { height:100vh !important; }
+  .scroll-sequence { height: 100vh !important; }
+  .scroll-sequence .sequence-loader,
+  .scroll-sequence .sequence-frame-label { transition: none; }
+}

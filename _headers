@@ -1,0 +1,8 @@
+/فديوهات موقع/scrollbg/sequence.mp4
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/فديوهات موقع/scrollbg/frames/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/فديوهات موقع/*.mp4
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

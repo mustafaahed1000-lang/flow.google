@@ -19,140 +19,141 @@ if (menuButton && nav) {
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
 
-const sequence = document.querySelector("#scroll-sequence");
-const canvas = document.querySelector("#sequence-canvas");
-let drawSequence = () => {};
-
-if (sequence && canvas) {
-  const context = canvas.getContext("2d", { alpha: false });
-  const indicator = sequence.querySelector(".scroll-indicator");
-  const frameCount = 240;
-  const framesPath = "./فديوهات موقع/frames_Camera_moving_through_creative_s…_20261009001547-upscaled-2x.mp4_30fps_png/frame_";
-  const frameCache = new Map();
-  let targetIndex = 0;
-  let lastPainted = -1;
-  let canvasWidth = 0;
-  let canvasHeight = 0;
-  let renderQueued = false;
-
-  function queueRender() {
-    if (renderQueued) return;
-    renderQueued = true;
-    requestAnimationFrame(() => {
-      renderQueued = false;
-      drawSequence();
-    });
+const localPreview = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+const adUnits = [...document.querySelectorAll(".adsterra-native, .adsterra-banner, .adsterra-square")];
+const adsenseUnits = [...document.querySelectorAll(".adsense-placement")];
+if (localPreview) {
+  for (const unit of adUnits) unit.innerHTML = '<span class="ad-preview-note">معاينة محلية — الإعلان يظهر بعد النشر</span>';
+  for (const unit of adsenseUnits) unit.classList.add("is-preview");
+} else {
+  const nativeUnit = document.querySelector(".adsterra-native");
+  if (nativeUnit) {
+    const script = document.createElement("script");
+    script.async = true;
+    script.dataset.cfasync = "false";
+    script.src = nativeUnit.dataset.adScript;
+    nativeUnit.append(script);
   }
 
-  function resizeCanvas() {
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvasWidth = Math.round(window.innerWidth * ratio);
-    canvasHeight = Math.round(window.innerHeight * ratio);
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    lastPainted = -1;
-    queueRender();
-  }
-
-  function drawCover(image) {
-    const scale = Math.max(canvasWidth / image.naturalWidth, canvasHeight / image.naturalHeight);
-    const width = image.naturalWidth * scale;
-    const height = image.naturalHeight * scale;
-    const x = (canvasWidth - width) / 2;
-    const y = (canvasHeight - height) / 2;
-    context.clearRect(0, 0, canvasWidth, canvasHeight);
-    context.drawImage(image, x, y, width, height);
-  }
-
-  function trimCache() {
-    const min = Math.max(0, targetIndex - 3);
-    const max = Math.min(frameCount - 1, targetIndex + 7);
-    for (const [index] of frameCache) {
-      if ((index < min || index > max) && frameCache.size > 12) frameCache.delete(index);
-    }
-  }
-
-  function loadFrame(index) {
-    if (index < 0 || index >= frameCount) return null;
-    if (frameCache.has(index)) return frameCache.get(index);
-
-    const image = new Image();
-    image.decoding = "async";
-    frameCache.set(index, image);
-    image.onload = () => {
-      if (index === targetIndex) {
-        drawCover(image);
-        lastPainted = index;
-      }
-      trimCache();
-    };
-    image.onerror = () => frameCache.delete(index);
-    image.src = framesPath + String(index).padStart(6, "0") + ".png";
-    return image;
-  }
-
-  drawSequence = function () {
-    const scrollable = Math.max(1, sequence.offsetHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, -sequence.getBoundingClientRect().top / scrollable));
-    targetIndex = Math.round(progress * (frameCount - 1));
-    if (indicator) indicator.classList.toggle("is-hidden", progress > 0.06);
-
-    const current = loadFrame(targetIndex);
-    for (let offset = 1; offset <= 3; offset++) loadFrame(targetIndex + offset);
-
-    if (current && current.complete && current.naturalWidth && lastPainted !== targetIndex) {
-      drawCover(current);
-      lastPainted = targetIndex;
-    }
-    trimCache();
+  const formatUnits = [...document.querySelectorAll(".adsterra-banner, .adsterra-square")];
+  let formatIndex = 0;
+  const loadNextAd = () => {
+    const unit = formatUnits[formatIndex++];
+    if (!unit) return;
+    window.atOptions = JSON.parse(unit.dataset.adOptions);
+    const script = document.createElement("script");
+    script.src = unit.dataset.adScript;
+    script.async = false;
+    script.onload = loadNextAd;
+    script.onerror = loadNextAd;
+    unit.append(script);
   };
+  loadNextAd();
 
-  window.addEventListener("scroll", queueRender, { passive: true });
-  window.addEventListener("resize", resizeCanvas, { passive: true });
-  resizeCanvas();
+  document.querySelectorAll(".adsbygoogle[data-ad-client='ca-pub-7686787781265209']").forEach((unit) => {
+    if (!/^\d+$/.test(unit.dataset.adSlot || "")) return;
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      unit.closest(".adsense-placement")?.classList.add("is-active");
+    } catch (error) {
+      console.warn("تعذّر تهيئة وحدة AdSense:", error);
+    }
+  });
 }
 
 const mainWrapper = document.querySelector(".main-content-wrapper");
 const backdrop = document.querySelector(".bg-video");
 const heroOrbVideo = document.querySelector(".hero-video-orb");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const videoVisibility = new WeakMap();
+const videoReadyHooks = new WeakSet();
+
+function playVisibleVideo(video) {
+  if (!video || reducedMotion || !videoVisibility.get(video)) return;
+  video.classList.add("is-ready");
+  const playback = video.play();
+  if (playback && playback.catch) playback.catch(() => {});
+}
+
+function startBackdropAfterOrb() {
+  if (!backdrop || !videoVisibility.get(backdrop)) return;
+  setVideoPlayback(backdrop, true);
+}
+
+function prepareLazyVideo(video) {
+  if (!video || video.dataset.sourceLoaded === "true") return;
+  const smallViewport = window.matchMedia("(max-width: 700px)").matches;
+  const saveData = navigator.connection?.saveData || ["slow-2g", "2g"].includes(navigator.connection?.effectiveType);
+  const source = (smallViewport || saveData) && video.dataset.srcMobile ? video.dataset.srcMobile : video.dataset.src;
+  if (!source) return;
+  video.dataset.sourceLoaded = "true";
+  video.muted = true;
+  video.playsInline = true;
+  video.preload = "none";
+  video.src = source;
+  video.load();
+}
 
 function setVideoPlayback(video, shouldPlay) {
   if (!video) return;
-  if (shouldPlay && !reducedMotion) {
-    const playback = video.play();
-    if (playback && playback.catch) playback.catch(() => {});
-  } else {
+  videoVisibility.set(video, shouldPlay);
+  if (!shouldPlay || reducedMotion) {
     video.pause();
-  }
-}
-
-function syncDecorativeVideos() {
-  const sequenceFinished = !sequence || sequence.getBoundingClientRect().bottom <= 0;
-  if (!sequenceFinished) {
-    setVideoPlayback(backdrop, false);
-    setVideoPlayback(heroOrbVideo, false);
     return;
   }
 
-  if (mainWrapper && backdrop) {
-    const pageRect = mainWrapper.getBoundingClientRect();
-    setVideoPlayback(backdrop, pageRect.top < window.innerHeight && pageRect.bottom > 0);
+  if (video === backdrop && heroOrbVideo && videoVisibility.get(heroOrbVideo) &&
+      !heroOrbVideo.classList.contains("is-ready") && !heroOrbVideo.classList.contains("is-failed")) return;
+
+  prepareLazyVideo(video);
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+    playVisibleVideo(video);
+    return;
   }
 
-  if (heroOrbVideo) {
-    const orbRect = heroOrbVideo.getBoundingClientRect();
-    setVideoPlayback(heroOrbVideo, orbRect.top < window.innerHeight && orbRect.bottom > 0);
+  if (!videoReadyHooks.has(video)) {
+    videoReadyHooks.add(video);
+    video.addEventListener("loadeddata", () => {
+      playVisibleVideo(video);
+      if (video === heroOrbVideo) startBackdropAfterOrb();
+    });
+    video.addEventListener("canplay", () => {
+      playVisibleVideo(video);
+      if (video === heroOrbVideo) startBackdropAfterOrb();
+    });
+    video.addEventListener("error", () => {
+      video.classList.add("is-failed");
+      if (video === heroOrbVideo) startBackdropAfterOrb();
+    }, { once: true });
   }
+
+  // Start a range-stream only while visible; play() lets the browser fetch the first playable chunk.
+  const playback = video.play();
+  if (playback && playback.catch) playback.catch(() => {});
 }
 
-window.addEventListener("scroll", syncDecorativeVideos, { passive: true });
-window.addEventListener("resize", syncDecorativeVideos, { passive: true });
-syncDecorativeVideos();
+if ("IntersectionObserver" in window) {
+  const videoObserver = new IntersectionObserver((entries) => {
+    const observations = entries.map((entry) => ({
+      entry,
+      video: entry.target.matches("video") ? entry.target : entry.target.querySelector("video")
+    })).filter(({ video }) => video);
+    for (const { entry, video } of observations) videoVisibility.set(video, entry.isIntersecting);
+    for (const { entry, video } of observations) setVideoPlayback(video, entry.isIntersecting);
+  }, { rootMargin: "240px", threshold: 0.01 });
+
+  if (mainWrapper && backdrop) videoObserver.observe(mainWrapper);
+  if (heroOrbVideo) videoObserver.observe(heroOrbVideo);
+} else {
+  setVideoPlayback(backdrop, false);
+  setVideoPlayback(heroOrbVideo, false);
+}
 
 const languageToggle = document.querySelector(".language-toggle");
 const textTranslations = {
   "مرّر للأسفل لتبدأ": "Scroll to explore",
+  "جارٍ تجهيز المشهد": "Preparing the scene",
+  "تعذّر تحميل بعض إطارات المشهد": "Some scene frames could not be loaded",
   "دليل عربي مستقل": "Independent guide",
   "الخطوات": "Guide",
   "فيديوهات وصور": "Videos & images",
@@ -171,6 +172,8 @@ const textTranslations = {
   "شوف الأمثلة": "View examples",
   "نزّل الملف": "Download",
   "مساحة إعلانية": "Advertisement",
+  "Google AdSense": "Google AdSense",
+  "مساحة إعلان متجاوبة": "Responsive ad space",
   "سيظهر الإعلان هنا بعد ربط AdSense والحصول على الموافقة": "An ad can appear here after AdSense setup and approval.",
   "01 — ابدأ من هنا": "01 — GET STARTED",
   "تعرّف على Flow،": "Discover Flow,",
