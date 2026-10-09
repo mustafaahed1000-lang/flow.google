@@ -21,10 +21,8 @@ if (year) year.textContent = new Date().getFullYear();
 
 const localPreview = location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
 const adUnits = [...document.querySelectorAll(".adsterra-native, .adsterra-banner, .adsterra-square")];
-const adsenseUnits = [...document.querySelectorAll(".adsense-placement")];
 if (localPreview) {
   for (const unit of adUnits) unit.innerHTML = '<span class="ad-preview-note">معاينة محلية — الإعلان يظهر بعد النشر</span>';
-  for (const unit of adsenseUnits) unit.classList.add("is-preview");
 } else {
   const nativeUnit = document.querySelector(".adsterra-native");
   if (nativeUnit) {
@@ -50,15 +48,6 @@ if (localPreview) {
   };
   loadNextAd();
 
-  document.querySelectorAll(".adsbygoogle[data-ad-client='ca-pub-7686787781265209']").forEach((unit) => {
-    if (!/^\d+$/.test(unit.dataset.adSlot || "")) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      unit.closest(".adsense-placement")?.classList.add("is-active");
-    } catch (error) {
-      console.warn("تعذّر تهيئة وحدة AdSense:", error);
-    }
-  });
 }
 
 const mainWrapper = document.querySelector(".main-content-wrapper");
@@ -172,8 +161,6 @@ const textTranslations = {
   "شوف الأمثلة": "View examples",
   "نزّل الملف": "Download",
   "مساحة إعلانية": "Advertisement",
-  "Google AdSense": "Google AdSense",
-  "مساحة إعلان متجاوبة": "Responsive ad space",
   "سيظهر الإعلان هنا بعد ربط AdSense والحصول على الموافقة": "An ad can appear here after AdSense setup and approval.",
   "01 — ابدأ من هنا": "01 — GET STARTED",
   "تعرّف على Flow،": "Discover Flow,",

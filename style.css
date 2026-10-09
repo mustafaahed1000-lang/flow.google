@@ -215,12 +215,3 @@ html[data-theme="light"] .hero-art .float-card{color:#242d3a;text-shadow:none}
 .whatsapp-btn .whatsapp-icon{width:20px;height:20px}
 .whatsapp-arrow{font-size:14px}
 @media(max-width:800px){.whatsapp-nav-btn{width:max-content;margin-top:4px;padding:9px 12px}.whatsapp-nav-btn .whatsapp-icon{width:18px;height:18px}}
-.adsense-placement{width:min(1160px,calc(100% - 48px));min-height:112px;margin:24px auto;position:relative;display:grid;place-items:center;overflow:hidden;border:1px dashed rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.025);color:#a7a5b5}
-.adsense-placement .adsbygoogle{display:block;width:100%;min-height:90px}
-.adsense-placement .ad-label{top:9px;right:12px;z-index:1;color:#aaa8b8;font-size:9px}
-.adsense-placeholder{position:absolute;inset:0;display:grid;place-items:center;font-size:11px;pointer-events:none}
-.adsense-placement.is-active .adsense-placeholder{display:none}
-.adsense-placement.is-active{border:0;background:transparent}
-.adsense-placement-banner{min-height:120px}
-.adsense-placement-square{min-height:286px}
-@media(max-width:800px){.adsense-placement{width:calc(100% - 36px);margin:18px auto;min-height:100px}.adsense-placement-square{min-height:270px}}
