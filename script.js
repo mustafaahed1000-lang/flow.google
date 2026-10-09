@@ -29,10 +29,7 @@ if (sequence && canvas) {
   const frameCount = 240;
   const framesPath = "./فديوهات موقع/frames_Camera_moving_through_creative_s…_20261009001547-upscaled-2x.mp4_30fps_png/frame_";
   const frameCache = new Map();
-  const decodedFrames = new WeakSet();
   let targetIndex = 0;
-  let previousTargetIndex = 0;
-  let scrollDirection = 1;
   let lastPainted = -1;
   let canvasWidth = 0;
   let canvasHeight = 0;
@@ -48,7 +45,7 @@ if (sequence && canvas) {
   }
 
   function resizeCanvas() {
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
     canvasWidth = Math.round(window.innerWidth * ratio);
     canvasHeight = Math.round(window.innerHeight * ratio);
     canvas.width = canvasWidth;
@@ -68,8 +65,8 @@ if (sequence && canvas) {
   }
 
   function trimCache() {
-    const min = Math.max(0, targetIndex - (scrollDirection > 0 ? 2 : 7));
-    const max = Math.min(frameCount - 1, targetIndex + (scrollDirection > 0 ? 7 : 2));
+    const min = Math.max(0, targetIndex - 3);
+    const max = Math.min(frameCount - 1, targetIndex + 7);
     for (const [index] of frameCache) {
       if ((index < min || index > max) && frameCache.size > 12) frameCache.delete(index);
     }
@@ -77,26 +74,16 @@ if (sequence && canvas) {
 
   function loadFrame(index) {
     if (index < 0 || index >= frameCount) return null;
-    if (frameCache.has(index)) {
-      const cached = frameCache.get(index);
-      if (index === targetIndex) cached.fetchPriority = "high";
-      return cached;
-    }
+    if (frameCache.has(index)) return frameCache.get(index);
 
     const image = new Image();
     image.decoding = "async";
-    image.fetchPriority = index === targetIndex ? "high" : "low";
     frameCache.set(index, image);
     image.onload = () => {
-      const afterDecode = () => {
-        decodedFrames.add(image);
-        if (index === targetIndex && lastPainted !== index) {
-          drawCover(image);
-          lastPainted = index;
-        }
-      };
-      if (typeof image.decode === "function") image.decode().then(afterDecode, afterDecode);
-      else afterDecode();
+      if (index === targetIndex) {
+        drawCover(image);
+        lastPainted = index;
+      }
       trimCache();
     };
     image.onerror = () => frameCache.delete(index);
@@ -108,16 +95,12 @@ if (sequence && canvas) {
     const scrollable = Math.max(1, sequence.offsetHeight - window.innerHeight);
     const progress = Math.min(1, Math.max(0, -sequence.getBoundingClientRect().top / scrollable));
     targetIndex = Math.round(progress * (frameCount - 1));
-    if (targetIndex !== previousTargetIndex) scrollDirection = targetIndex > previousTargetIndex ? 1 : -1;
-    previousTargetIndex = targetIndex;
-
     if (indicator) indicator.classList.toggle("is-hidden", progress > 0.06);
 
     const current = loadFrame(targetIndex);
-    for (let offset = 1; offset <= 5; offset++) loadFrame(targetIndex + offset * scrollDirection);
-    for (let offset = 1; offset <= 2; offset++) loadFrame(targetIndex - offset * scrollDirection);
+    for (let offset = 1; offset <= 3; offset++) loadFrame(targetIndex + offset);
 
-    if (current && current.complete && current.naturalWidth && decodedFrames.has(current) && lastPainted !== targetIndex) {
+    if (current && current.complete && current.naturalWidth && lastPainted !== targetIndex) {
       drawCover(current);
       lastPainted = targetIndex;
     }
