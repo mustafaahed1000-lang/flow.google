@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="دليل عربي لمقاطع وأدوات Google Flow، مع فيديوهات محلية ومشاهد تفاعلية.">
+  <title>Flow Guide — دليلك لحل مشكلة Google Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 3D Scroll Sequence Container -->
+  <div id="scroll-sequence" style="position: relative; width: 100vw; height: 240vh; background: #000; z-index: 100;">
+    <div class="scroll-indicator" style="position: absolute; top: 50vh; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #fff; z-index: 101; pointer-events: none;">
+      <div class="mouse" style="width: 30px; height: 50px; border: 2px solid #fff; border-radius: 20px; margin: 0 auto; position: relative;">
+        <div style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 4px; height: 8px; background: #fff; border-radius: 2px; animation: scrollAnim 1.5s infinite;"></div>
+      </div>
+      <p style="font-size: 16px; font-weight: 600; margin-top: 15px; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">مرّر للأسفل لتبدأ<br>Scroll Down</p>
+    </div>
+    <canvas id="sequence-canvas" style="position: sticky; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover;"></canvas>
+  </div>
+  
+  <style>
+    @keyframes scrollAnim { 0% { top: 8px; opacity: 1; } 100% { top: 24px; opacity: 0; } }
+  </style>
+
+  <!-- Main Website Content -->
+  <div class="main-content-wrapper" style="position: relative; width: 100%; z-index: 1; background: transparent;">
+    <video class="bg-video" src="./فديوهات موقع/1009.mp4" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" loop muted playsinline preload="none" aria-hidden="true"></video>
+    <div class="bg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 11, 18, 0.85); z-index: -1;"></div>
+
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar wrap">
+    <a class="brand" href="#home" aria-label="Flow Guide الصفحة الرئيسية"><img class="brand-mark-img" src="./فديوهات موقع/flow-google-site-cover-preview.jpg" alt="Flow Guide" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;"><span>flow<span class="brand-light">guide</span><small>دليل عربي مستقل</small></span></a>
+    <nav aria-label="التنقل الرئيسي"><a href="#steps">الخطوات</a><a href="#videos">فيديوهات وصور</a><a href="#safety">الأمان والخصوصية</a><a href="#faq">الأسئلة الشائعة</a><a class="whatsapp-nav-btn" href="https://wa.me/972594643895" target="_blank" rel="noopener" aria-label="التواصل والدعم عبر واتساب"><svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.14 6.43 2.14 11.89c0 1.75.46 3.47 1.33 4.98L2 22l5.27-1.38c1.45.79 3.08 1.2 4.75 1.2h.01c5.46 0 9.9-4.43 9.9-9.89a9.83 9.83 0 0 0-2.9-7.01A9.83 9.83 0 0 0 12.04 2zm0 18.13c-1.48 0-2.94-.4-4.21-1.16l-.3-.18-3.13.82.84-3.05-.2-.31a8.16 8.16 0 0 1-1.25-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.85 5.8 2.4a8.15 8.15 0 0 1 2.4 5.8c0 4.53-3.68 8.22-8.2 8.22zm4.51-6.15c-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.5-1.4-1.75-.15-.25-.02-.39.11-.52.11-.11.25-.3.38-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.88-.2-.49-.41-.42-.57-.43l-.49-.01c-.17 0-.45.06-.68.32-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.52.6.19 1.15.16 1.58.1.48-.07 1.48-.61 1.69-1.2.21-.59.21-1.1.15-1.2-.06-.11-.23-.17-.48-.3z"/></svg><span>التواصل والدعم</span></a></nav>
+    <div class="header-tools"><button class="language-toggle" type="button" aria-label="Switch to English">EN</button></div>
+    <a class="nav-cta" href="#download">ابدأ من هنا <span>↙</span></a>
+    <button class="menu-toggle" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+  </header>
+
+  <main id="home">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><i></i> دليل مجاني · شرح واضح · استخدام مسؤول</div>
+        <h1>خلّي طريقك<br>إلى <span class="gradient-text">Google Flow</span><br>أوضح.</h1>
+        <p class="hero-lede">شاهد أمثلة Google Flow، تصفّح المشاهد التفاعلية، وتعرّف على ملف FlowPass ومحتوياته من مكان واحد.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#steps">شوف الدليل <span>←</span></a><a class="button button-quiet" href="#videos"><span class="play">▶</span> فيديوهات Google Flow</a></div>
+        <div class="trust-row"><span><b>01</b> شاهد المشاهد</span><span><b>02</b> شوف الأمثلة</span><span><b>03</b> نزّل الملف</span></div>
+      </div>
+      <div class="hero-art" aria-label="تصميم ثلاثي الأبعاد تجريدي">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+        <div class="orb-core"><div class="core-glass"><video class="hero-video-orb" src="./فديوهات موقع/Storyboard_drawing_transforms_in…_20261009000716.mp4" loop muted playsinline preload="none" aria-hidden="true"></video><span class="spark spark-a">✳</span><span class="spark spark-b">✦</span><span class="spark spark-c">·</span></div></div>
+        <div class="float-card card-top"><span class="status-dot"></span><span>دليل الوصول</span><b>محدّث</b></div>
+        <div class="float-card card-bottom"><span class="mini-icon">⌘</span><span><b>حلول مرتّبة</b><small>خطوة بخطوة</small></span><span class="card-arrow">↗</span></div>
+        <div class="art-caption"><span>FLOW / ACCESS GUIDE</span><span>v 1.0</span></div>
+      </div>
+    </section>
+
+    <div class="ad-slot wrap" aria-label="مساحة إعلانية تجريبية"><span class="ad-label">مساحة إعلانية</span><span>سيظهر الإعلان هنا بعد ربط AdSense والحصول على الموافقة</span><span class="ad-dashes"></span></div>
+
+    <section class="intro wrap" id="steps">
+      <div class="section-kicker">01 — ابدأ من هنا</div><div class="section-heading"><h2>تعرّف على Flow،<br><span>من الفكرة إلى الفيديو.</span></h2><p>شاهد المشاهد، تعرّف على محتوى الموقع، ثم انتقل إلى المقاطع أو ملف الإضافة.</p></div>
+      <div class="steps-grid">
+        <article class="step-card"><span class="step-num">01</span><div class="step-icon">⌕</div><h3>شاهد المشاهد</h3><p>ابدأ بتجربة مقدمة التمرير التفاعلية واستكشف الصور التي أعددناها.</p><a href="#scroll-sequence">ابدأ المشاهدة <span>←</span></a></article>
+        <article class="step-card featured"><span class="step-num">02</span><div class="step-icon">◉</div><h3>تصفّح المقاطع</h3><p>اختر أي فيديو من المجموعة وشغّله مباشرة من الصفحة.</p><a href="#videos">شاهد الفيديوهات <span>←</span></a></article>
+        <article class="step-card"><span class="step-num">03</span><div class="step-icon">↗</div><h3>حمّل ملف FlowPass</h3><p>نزّل ملف الإضافة المضغوط، وستجد تعليمات التثبيت ضمن محتوياته.</p><a href="#download">انتقل للتنزيل <span>←</span></a></article>
+      </div>
+    </section>
+
+    <section class="video-section wrap" id="videos">
+      <div class="video-heading">
+        <div><div class="section-kicker">02 — مقاطع من المجلد</div><h2>شاهد مقاطع Flow<br><span class="gradient-text">بوضوح وترتيب.</span></h2></div>
+        <p>هذه الفيديوهات من الملفات المرفقة بالموقع. اختر أي مقطع واضغط تشغيل؛ عنوانه وشرحه موجودان تحته مباشرة.</p>
+      </div>
+      <div class="video-grid">
+        <article class="video-card">
+          <video src="./فديوهات موقع/Google_Flow_motion_graphics_adve…_20261009000634.mp4" controls playsinline preload="none" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" aria-label="مقطع رسوم Google Flow"></video>
+          <div class="video-card-copy"><span class="video-index">المقطع 01</span><h3>رسوم وحركة Flow</h3><p>مشاهد متحركة تعرض أسلوب Flow البصري.</p></div>
+        </article>
+        <article class="video-card">
+          <video src="./فديوهات موقع/Camera_journey_through_transitio…_20261009000803.mp4" controls playsinline preload="none" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" aria-label="مقطع انتقالات الكاميرا"></video>
+          <div class="video-card-copy"><span class="video-index">المقطع 02</span><h3>رحلة بين المشاهد</h3><p>حركة كاميرا تربط لقطات مختلفة بانسيابية.</p></div>
+        </article>
+        <article class="video-card">
+          <video src="./فديوهات موقع/Camera_moving_from_forest_to_20261009000855.mp4" controls playsinline preload="none" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" aria-label="مقطع انتقال الكاميرا من الغابة"></video>
+          <div class="video-card-copy"><span class="video-index">المقطع 03</span><h3>من الغابة إلى المشهد التالي</h3><p>مثال بصري على انتقال الكاميرا بين بيئتين.</p></div>
+        </article>
+        <article class="video-card">
+          <video src="./فديوهات موقع/Camera_moving_through_studio_des…_20261009000823.mp4" controls playsinline preload="none" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" aria-label="مقطع حركة الكاميرا داخل الاستوديو"></video>
+          <div class="video-card-copy"><span class="video-index">المقطع 04</span><h3>حركة داخل الاستوديو</h3><p>لقطة متحركة تمرّ عبر مساحة إبداعية.</p></div>
+        </article>
+        <article class="video-card">
+          <video src="./فديوهات موقع/Storyboard_drawing_transforms_in…_20261009000716.mp4" controls playsinline preload="none" poster="./فديوهات موقع/flow-google-site-cover-preview.jpg" aria-label="مقطع الرسم يتحول إلى مشهد"></video>
+          <div class="video-card-copy"><span class="video-index">المقطع 05</span><h3>من الرسم إلى المشهد</h3><p>شاهد فكرة مرسومة تتحول إلى لقطة متحركة.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="download-section" id="download"><div class="download-inner wrap">
+      <div class="download-visual"><div class="file-stack"><div class="file-back">ZIP</div><div class="file-front"><span class="file-fold"></span><span class="file-symbol">✳</span><b>FLOW</b><small>CHROME EXTENSION</small></div><div class="file-glow"></div></div><span class="visual-label">FLOWPASS EXTENSION <i>✦</i></span></div>
+      <div class="download-copy"><div class="section-kicker">03 — تنزيل المجلد</div><h2>FlowPass<br><span class="gradient-text">ملف الإضافة.</span></h2><p>إضافة متصفح Chromium تساعد على الوصول إلى Google Flow. حمّل الملف المضغوط وافتح تعليمات README المرفقة لمعرفة محتوياته وطريقة التثبيت.</p>
+        <div class="file-details"><span>الإصدار <b>1.1.0</b></span><span>الصيغة <b>ZIP</b></span><span>المصدر <b>GitHub</b></span></div>
+        <a class="button button-primary download-button" href="./flowpass-v1.1.0.zip" download>نزّل المجلد مجانًا <span>↓</span></a>
+        <small class="download-note">ملف المشروع كما وصلنا، <a href="https://github.com/zephinax/flowpass" target="_blank" rel="noopener">ومستودعه على GitHub ↗</a></small>
+      </div>
+    </div></section>
+
+    <section class="safety wrap" id="safety"><div class="safety-top"><div><div class="section-kicker">04 — أمانك أولًا</div><h2>استخدمه <span>وأنت مطمّن.</span></h2></div><p>هذا الموقع دليل مستقل من المجتمع، وليس تابعًا إلى Google. لا نطلب منك كلمة مرورك أو بيانات الدفع.</p></div>
+      <div class="safety-grid"><div><span>✦</span><b>استخدم المصادر الرسمية</b><small>راجع صفحات المساعدة وشروط Google.</small></div><div><span>⌁</span><b>لا تشارك بياناتك</b><small>لا ترسل كلمة المرور أو رموز التحقق لأي شخص.</small></div><div><span>◇</span><b>افحص الملفات</b><small>استخدم مضاد الفيروسات قبل فتح أي ملف.</small></div></div>
+    </section>
+
+    <div class="ad-slot ad-slot-wide wrap" aria-label="مساحة إعلانية تجريبية"><span class="ad-label">مساحة إعلانية</span><span>إعلان متجاوب</span><span class="ad-dashes"></span></div>
+
+    <section class="faq wrap" id="faq"><div class="section-kicker">05 — أسئلة سريعة</div><h2>قبل ما تبدأ</h2><div class="faq-list">
+      <details><summary>هل الموقع تابع لشركة Google؟ <span>＋</span></summary><p>لا. هذا موقع مستقل يقدّم محتوى تعليميًا، ولا يمثّل Google أو يرتبط بها.</p></details>
+      <details><summary>كيف أعرف إذا Flow متاح في بلدي؟ <span>＋</span></summary><p>راجع <a href="https://support.google.com/flow/answer/16353544" target="_blank" rel="noopener">قائمة البلدان والمتطلبات في مركز مساعدة Google Flow</a>؛ قد تختلف الميزات حسب المنطقة.</p></details>
+      <details><summary>شو موجود داخل الملف؟ <span>＋</span></summary><p>ملفات إضافة FlowPass للمتصفحات المبنية على Chromium، مع واجهة الإضافة وملفاتها وتعليمات README.</p></details>
+      <details><summary>هل الإعلانات تعني أن Google تؤيد هذا الموقع؟ <span>＋</span></summary><p>لا. أي إعلانات مستقبلية عبر AdSense لا تعني رعاية Google للموقع أو ارتباطها به. يجب أن يكون المحتوى أصليًا ومفيدًا وأن يلتزم بسياسات الناشرين.</p></details>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="wrap footer-inner"><a class="brand" href="#home"><img class="brand-mark-img" src="./فديوهات موقع/flow-google-site-cover-preview.jpg" alt="Flow Guide" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;"><span>flow<span class="brand-light">guide</span><small>دليل عربي مستقل</small></span></a><p>محتوى مجاني للتوعية والمساعدة. Google وGoogle Flow علامتان تجاريتان لمالكيهما.</p><div><a href="#safety">الخصوصية والأمان</a><a href="#faq">الأسئلة الشائعة</a></div><small class="copyright"><span class="contact-label">طرق التواصل</span><a href="https://wa.me/972594643895" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="راسلنا على واتساب"><svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.14 6.43 2.14 11.89c0 1.75.46 3.47 1.33 4.98L2 22l5.27-1.38c1.45.79 3.08 1.2 4.75 1.2h.01c5.46 0 9.9-4.43 9.9-9.89a9.83 9.83 0 0 0-2.9-7.01A9.83 9.83 0 0 0 12.04 2zm0 18.13c-1.48 0-2.94-.4-4.21-1.16l-.3-.18-3.13.82.84-3.05-.2-.31a8.16 8.16 0 0 1-1.25-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.85 5.8 2.4a8.15 8.15 0 0 1 2.4 5.8c0 4.53-3.68 8.22-8.2 8.22zm4.51-6.15c-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.5-1.4-1.75-.15-.25-.02-.39.11-.52.11-.11.25-.3.38-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.57-1.37-.78-1.88-.2-.49-.41-.42-.57-.43l-.49-.01c-.17 0-.45.06-.68.32-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.52.6.19 1.15.16 1.58.1.48-.07 1.48-.61 1.69-1.2.21-.59.21-1.1.15-1.2-.06-.11-.23-.17-.48-.3z"/></svg><span>واتساب · +972 59 464 3895</span><span class="whatsapp-arrow">↗</span></a><br>© <span id="year">2026</span> Flow Guide</small></div></footer>
+  <script src="script.js"></script>
+  </div>
+</body></html>
+
+
+
+
+
+
